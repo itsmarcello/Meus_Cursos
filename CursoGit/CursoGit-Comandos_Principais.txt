@@ -50,3 +50,5 @@ git diff NOME
 
 * Reverter alteração antes do commit ( git checkout HEAD -- NOME )  
 
+* Ignorar arqvuios ( .gititnore )
+Crie um arquivo com os nomes dos arquvios à serem ignorados
