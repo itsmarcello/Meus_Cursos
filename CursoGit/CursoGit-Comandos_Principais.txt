@@ -45,4 +45,8 @@ git checkou Novos_Cursos
 
 * Diferenciação entre dois arquivos o tempo ( git diff ) 
 a letra q sai do (end)
+git diff --name-only -> Só o nome do arquivo que foi modificado
+git diff NOME
+
+* Reverter alteração antes do commit ( git checkout HEAD -- NOME )  
 
