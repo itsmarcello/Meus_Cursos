@@ -50,5 +50,14 @@ git diff NOME
 
 * Reverter alteração antes do commit ( git checkout HEAD -- NOME )  
 
-* Ignorar arqvuios ( .gititnore )
-Crie um arquivo com os nomes dos arquvios à serem ignorados
+* Voltar à alguma commit especifico, mas guardando commit feito ( git revert --no-edit )
+
+* Deletar branch na Cloud ( git push origin :NOME)
+* Deletar branch Local (git branch -D NOME)
+
+* PULL arquivos da nuvem (git pull origin master)
+
+* Clone de um projetopara o meu local (git clone URL)
+Crie uma nova pasta
+Copie a URL do site
+Use: git clone https://github.com/TEstudos/Curso_HTML5_GustavoGuanabara
