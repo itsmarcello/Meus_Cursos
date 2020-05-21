@@ -1,0 +1,565 @@
+DATA SCIENCE
+
+*Introduction*
+
+Muitas empresas estão usando Data Science para melhor entender seu produtos e clientes
+
+Um bom profisional sabe não só usar bem as ferramentas de tabalho, mais comunicar e transmitir os conhecimentos adquiridos.
+
+PYTHON 
+
+*Criação de funções*
+
+def NOMEDAFUNCAO (x, y):
+	return x+y
+add_numbers(1,3)
+
+*Print de Valores
+
+print()
+
+*Separar string em pedaços*
+
+nome = 'Marcelo Santos de Oliveira Filho'
+firstname = nome.split(' ')[0]
+lastname= nome.split(' ')[-1]
+print(firstname)
+print(lastname)
+
+*Dicionários
+Ex: 
+sales_record = {
+'price': 3.24,
+'num_items': 4,
+'person': 'Chris'}
+
+sales_statement = '{} bought {} item(s) at a price of {} each for a total of {}'
+
+print(sales_statement.format(sales_record['person'],
+                             sales_record['num_items'],
+                             sales_record['price'],
+                             sales_record['num_items']*sales_record['price']))
+
+*Importando Data e Hora*
+
+import datetime as dt
+import time as tm
+
+tm.time()
+
+dtnow = dt.datetime.fromtimestamp(tm.time())
+dtnow
+
+dtnow.year, dtnow.month, dtnow.day, dtnow.hour, dtnow.minute, dtnow.second
+
+today = dt.date.today()
+
+* Aplicar uma funcao em um Lista de variaveis*
+
+list(map(FUNCAO,ListaDeVariaveis))
+
+Ex: people = ['Dr. Christopher Brooks', 'Dr. Kevyn Collins-Thompson', 'Dr. VG Vinod Vydiswaran', 'Dr. Daniel Romero']
+
+def split_title_and_name(a):
+    lastname= a.split(' ')[-1]
+    nomecargo= 'Dr. '+ lastname     
+    return nomecargo
+
+a=people[0]
+split_title_and_name(a)
+
+list(map(split_title_and_name,people))
+
+* Iinserie variáveis em Espaços FORMAT*
+
+people = ['Dr. Christopher Brooks', 'Dr. Kevyn Collins-Thompson', 'Dr. VG Vinod Vydiswaran', 'Dr. Daniel Romero']
+
+def split_title_and_name(person):
+    title = person.split()[0]
+    lastname = person.split()[-1]
+    return '{} {}'.format(title, lastname)
+
+*Função Lambda*
+
+lambda a, b, c : a + b
+lambda entrada : return
+print (lambda ....)
+== lambda ...
+
+*Crias listas com resultados de for especificos*
+
+my_list = [number for number in range(0,1000) if number % 2 == 0]
+my_list
+
+
+list(map(split_title_and_name, people))
+
+
+
+
+
+
+
+
+------------- CSV Class -----------
+* Abrir CSV *
+- Transofma os dados do arquivo em um diconário no Python
+
+import csv
+
+%precision 2
+
+with open('mpg.csv') as csvfile:
+    mpg = list(csv.DictReader(csvfile))
+    
+mpg[:3] # The first three dictionaries in our list.
+
+*Mostrar Classes dos dicionários*
+
+mpg[0].keys()
+
+*Soma de todos os itens de uma classe*
+(nesse caso 'cty')
+
+sum(float(d['cty']) for d in mpg)
+
+*Mostra resultados comuns nos dicionários para uma classe em especifico*
+(nesse caso 'Cyl')
+
+cylinders = set(d['cyl'] for d in mpg)
+cylinders
+
+------- Vetores ----------
+
+import numpy as np => permite o trabalho com vetores
+
+y = np.array([4, 5, 6])
+m = np.array([[7, 8, 9], [10, 11, 12]]) vetor multidimensional
+m.shape --> Diensoes do vetor
+n = np.arange(0, 30, 2) # start at 0 count up by 2, stop before 30
+n = n.reshape(3, 5) # reshape array to be 3x5
+o = np.linspace(0, 4, 9) # return 9 evenly spaced values from 0 to 4
+np.ones((3, 2))
+np.zeros((2, 3))
+np.eye(3) => matriz identidade
+np.diag(h) => matriz de zeros com um vetor na diagonal
+Repetições
+np.array([1, 2, 3]*3 )
+np.repeat([1, 2, 3], 3)
+x.dot(y) => produto escalar
+z.T => Transposta de Z
+s = np.arange(13) cira lista de 0 à 13 
+	ex: r = np.arange(36)
+	r.resize((6, 6))
+	r
+s[Começo:Fin:passo]
+r[:2, :-1] => duas primeiras linhas, sem a ultima coluna
+r[r > 30] => mostra elentos maiores que 30
+r[r > 30] = 50 => transporma s maiores de 30 em 50
+r2 = r[:3,:3] => isso não copia, mas acessa mais facilmente essa regiao
+r_2 = r.copy() => faça uma copia
+test = np.random.randint(0, 10, (4,3)) => Cria Array com Randon de 0 à 9 no ormato 4x3
+FOR --- Interações
+for x in test: => X é entendido como cada linha
+    print(x)
+for i, row in enumerate(test): => indice e dados as linhas
+    print('row', i, 'is', row)
+
+Itenrar me duas matrizes:
+for i, j in zip(test, test2):
+    print(i,'+',j,'=',i+j)
+
+
+
+********       WEEK 2         ********
+
+
+---------- Using PANDAS ----------
+PS> df[x]  x--> Colunas
+    df.loc[x] x--> Linhas
+
+
+Import Panda => import pandas as pd
+
+*Exemplo de Utilização:
+animal = ['Tigre', 'Urso', 'Alce']
+pd.Series(animal)
+
+*Diconario para Panda:
+sports = {'Archery': 'Bhutan',
+          'Golf': 'Scotland',
+          'Sumo': 'Japan',
+          'Taekwondo': 'South Korea'}
+s = pd.Series(sports)    
+---> Uma das colunas vira Index e a Outra vira os values
+
+*Refferindo à valores no Panda
+	Posição numerica 
+		iloc[3]
+	Posiçã com Palavra
+		loc['Japan']
+Se voce der s[3] --> ele vai te devolver tudo: Index e valor naquela posição
+
+*Somando valores de maneira rápida
+	import numpy as np
+	total = np.sum(sériepanda)
+
+*Juntando dois pandas( append)
+original_sports = pd.Series({'Archery': 'Bhutan',
+                             'Golf': 'Scotland',
+                             'Sumo': 'Japan',
+                             'Taekwondo': 'South Korea'})
+cricket_loving_countries = pd.Series(['Australia',
+                                      'Barbados',
+                                      'Pakistan',
+                                      'England'], 
+                                   index=['Cricket',
+                                          'Cricket',
+                                          'Cricket',
+                                          'Cricket'])
+all_countries = original_sports.append(cricket_loving_countries)  <------ o append devolte uma visualização dos dois, juntos tem que savar depois em uma variável
+
+
+*Criando Pandas com listas 
+
+
+pd.Series(ListaValores, index = (ListaIndice))
+
+
+---------- DataFrames ----------
+São Pandas de mais de uma dimesão de valores
+
+*Explo da junção:
+purchase_1 = pd.Series({'Name': 'Chris',
+                        'Item Purchased': 'Dog Food',
+                        'Cost': 22.50})
+purchase_2 = pd.Series({'Name': 'Kevyn',
+                        'Item Purchased': 'Kitty Litter',
+                        'Cost': 2.50})
+purchase_3 = pd.Series({'Name': 'Vinod',
+                        'Item Purchased': 'Bird Seed',
+                        'Cost': 5.00})
+df = pd.DataFrame([purchase_1, purchase_2, purchase_3], index=['Store 1', 'Store 1', 'Store 2'])
+df.head()
+
+*Para acessar todos os itens de uma coluna, basta escrever o nome da coluna
+ex: df['Item Purchased'] --> Sendo df o nosso panda
+
+* Para duas dimensões (uma linha e uma coluna)
+df.loc['Store 1', 'Cost']
+
+*Transformar Indeces em Colunas? 
+dt.T
+
+*Duas colunas ao mesmo tempo
+df.loc[:,['Name', 'Cost']]
+
+*Apagando linhas (DROP)
+	dt.drop('Store 1') --> Devolve apenas uma CÓPIA  com a mudança
+
+*Apagar de verdade
+del df['Name']
+
+------- DataFrames CSV --------
+
+* Abri CVS
+
+!cat nomedoarquivo.csv  --> não funciona sempre
+
+import pandas as pd  --> mais confiàvel
+df = pd.read_csv('olympics.csv')
+df.head()
+
+* Configurando Importação
+
+df = pd.read_csv('olympics.csv', index_col = 0, skiprows=1)  -> salta a primeira linha e 
+df.head()
+
+* Configurando nomes de colunas
+df.columns -> É devoldido uma lista com os nomes das colunas
+
+
+------- Filtrando Valores ------------
+
+A filtragem é feita em duas etapas:
+only_positiv = df['Coluna1'] > 0
+resultato_filtrado = df.where(df['Coluna1'] > 0)
+
+* Contar ocorrencias de uma c=sitaução espeficifica:
+resultado_filtrado.count()
+
+* Filtrado de maneiramais eficiente: (sem NaN)
+only_gold = df[df['Gold'] > 0]  --> MAIS PODEROSO
+only_gold.head()
+
+
+*Filtagem simples
+df['Item Purchased'][df['Cost']>5]
+
+
+-------- INDEX -------------------
+
+Colocar coluna como Index
+df = df.set_index(['STNAME', 'CTYNAME'])
+df.head()
+
+
+
+-------- Filling Missing Values -----
+
+df.fillna
+
+
+********       WEEK 3         ********
+
+
+-------- Modifying Data -----
+
+* Adicionar uma nova coluna em uma Tabela (df)
+Ex:
+df['Date'] = ['December 1', 'January 1', 'mid-May']
+df['COLUNA'] = ['Itens', 'Itens', 'Itens']
+
+* Mudar valores dentro da Tabela (df)
+Ex:
+adf = df.reset_index()   <-  Função necessária
+adf['Date'] = pd.Series({0: 'December 33', 2: 'mid-May'})
+adf
+PS => Valores não modificados serão colocamos como NaN!!!!
+
+--------- Merging Dataframes -------
+
+FOCANDO NOS INDICES SEMELEHANTES:
+
+* UNIÃO -> todas as colunas dos dois documentos aparererão juntas para os mesmos incides.
+Os valores ausente serão colcoados como "NaN"
+Ex: pd.merge(staff_df, student_df, how='outer', left_index=True, right_index=True)
+
+* INTERSEÇÃO
+Ex: pd.merge(staff_df, student_df, how='inner', left_index=True, right_index=True)
+
+* Right or Left UNION
+Pega tudo que está à direita ou á esquerda junto com a interseção correspondente.
+Ex:pd.merge(staff_df, student_df, how='left', left_index=True, right_index=True)
+Ex:pd.merge(staff_df, student_df, how='right', left_index=True, right_index=True)
+
+FOCANDO EM COLUNAS SEMELHANTES:
+Ex: pd.merge(staff_df, student_df, how='left', left_on='Name', right_on='Name') < --- RIGHT_ON LEFT_ON
+
+* Junção com mais de uma coluna semelhante na regra
+pd.merge(staff_df, student_df, how='inner', left_on=['First Name','Last Name'], right_on=['First Name','Last Name'])
+
+------ Exercico Tabela de Precos -------- 
+
+products_df = pd.DataFrame([{'Product ID': '4109', 'Price': 5, 'Product': 'Sushi Roll'},
+                         {'Product ID': '1412', 'Price': 0.5, 'Product': 'Egg'},
+                         {'Product ID': '8931', 'Price': 1.5, 'Product': 'Bagel'}])
+invoices_df = pd.DataFrame([{'Product ID': '4109', 'Quantity': 12, 'Customer': 'Ali'},
+                           {'Product ID': '1412', 'Quantity': 12, 'Customer': 'Eric'},
+                           {'Product ID': '8931', 'Quantity': 6, 'Customer': 'Ande'},
+                          {'Product ID': '4109', 'Quantity': 2, 'Customer': 'Sam'}])
+
+
+products_df = products_df.set_index(['Product ID'])  --> Relaciona produto com seu código e preço
+
+print(products_df)
+print("\n")
+print(invoices_df)
+
+juncao = pd.merge(products_df , invoices_df, left_index=True, right_on='Product ID') --> Relaciona Consumidor com a outra planilha com base no product_id
+juncao
+PS: CUIDADO COM O right_ON!!!
+
+-------- Getting just Essential Information ----------
+
+* Criando uma copia com vários filtros
+Ex1:
+df = df[df['SUMLEV']==50]  -> valores iguais a 50
+df.set_index(['STNAME','CTYNAME'], inplace=True) --> redefinindo indices
+df.rename(columns={'ESTIMATESBASE2010': 'Estimates Base 2010'}) --> Mudando nome da Coluna
+
+Ex:2 
+print(df.drop(df[df['Quantity'] == 0].index).rename(columns={'Weight': 'Weight (oz.)'}))
+df.drop(df[df['Quantity'] == 0].index).rename(columns={'Weight': 'Weight (oz.)'})
+PS: Drop e index são bons amigos
+
+
+------ Aplicação de uma função em uma Tabela toda -------
+
+Ex:
+df.apply(min_max, axis=1)
+TABELA.apply(FUNCAO, axis=1) --> aplica a formula em todas as linhas da tablela, linha por minha começando na minha 1
+
+Ex: import numpy as np
+def min_max(row):
+    data = row[['POPESTIMATE2010',
+                'POPESTIMATE2011',
+                'POPESTIMATE2012',
+                'POPESTIMATE2013',
+                'POPESTIMATE2014',
+                'POPESTIMATE2015']]
+    row['max'] = np.max(data) ---> nova formula de acrescentar colunas
+    row['min'] = np.min(data)
+    return row
+df.apply(min_max, axis=1)
+
+Ex: COM LAMBDA
+rows = ['POPESTIMATE2010',
+        'POPESTIMATE2011',
+        'POPESTIMATE2012',
+        'POPESTIMATE2013',
+        'POPESTIMATE2014',
+        'POPESTIMATE2015']
+df.apply(lambda x: np.max(x[rows]), axis=1)
+
+
+---------------- Groups -----------------------------
+
+Ex: for state in df['STNAME'].unique():    ----> Uma lista unica de Stados "Alabama"
+    avg = np.average(df.where(df['STNAME']==state).dropna()['CENSUS2010POP'])
+    print('Counties in state ' + state + ' have an average population of ' + str(avg))
+
+Ex: for group, frame in df.groupby('STNAME'):
+    print(group, frame)  --> Separa em grupo com base nos nomes de indices (group) e o frame são as colunas de dados. Grupo e Frame são TABELAS
+    avg = np.average(frame['CENSUS2010POP'])
+    print('Counties in state ' + group + ' have an average population of ' + str(avg))
+
+*Ex: 
+df1 = df.set_index('STNAME')
+
+def fun(item):
+    if item[0]<'M':
+        return 0
+    if item[0]<'Q':
+        return 1
+    return 2
+
+for group, frame in df1.groupby(fun):
+    print('There are ' + str(len(frame)) + ' records in group ' + str(group) + ' for processing.')
+
+*Ex: MAIS POTENTE DE TODAS ***
+df.groupby('STNAME').agg({'CENSUS2010POP': np.average}) ****
+
+------------------ Exercico Grupos ----------
+PESO POR CATEGORIA
+
+print(df)
+print("\n")
+print("\n")
+uni = df["Category"].unique()
+peso_total = []
+for group, frame in df.groupby("Category"):
+  #print("\n")
+  #print(group)
+  #print("\n")
+  #print(frame)
+  #print("\n")
+  a= sum(frame["Quantity"]*frame["Weight (oz.)"])
+  peso_total.append(a)
+  print("The total Weight of the Cathegory {} is {} oz..".format(group, a))
+  
+#dfpeso = pd.Series(peso_total, index=(uni.sort()))
+#dfpeso
+
+Ou RESPOSTA:
+ print(df.groupby('Category').apply(lambda df,a,b: sum(df[a] * df[b]), 'Weight (oz.)', 'Quantity'))
+
+
+----------------- AGRREGATE ----------------------
+df = pd.DataFrame([[1, 2, 3],
+                   [4, 5, 6],
+                   [7, 8, 9],
+                   [np.nan, np.nan, np.nan]],
+                  columns=['A', 'B', 'C'])
+
+df.agg(['sum', 'min'])
+        A     B     C
+sum  12.0  15.0  18.0
+min   1.0   2.0   3.0
+
+OU EM COLUNAS: 
+df.agg("mean", axis="columns")
+0    2.0
+1    5.0
+2    8.0
+3    NaN
+dtype: float64
+
+* AGG para aplicar FORMULAS
+
+(df.set_index('STNAME').groupby(level=0)['CENSUS2010POP']
+    .agg({'avg': np.average, 'sum': np.sum})) --> Cria nova coluna e já aplica a formula para montar essa nova coluna
+
+df.groupby('STNAME').agg({'CENSUS2010POP': np.average}) --> Aplica a formula para trocar os dados de uma coluna jpa existente
+
+----------------SCALES------------------------------
+*Criando planilha bonitinha
+
+import pandas as pd
+df = pd.DataFrame(['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D'],
+                  index=['excellent', 'excellent', 'excellent', 'good', 'good', 'good', 'ok', 'ok', 'ok', 'poor', 'poor'])
+df.rename(columns={0: 'Grades'}, inplace=True)
+df
+
+* TIPOS DE COLUNA : ***Category***  --> df['Grades'].astype('category').head()
+Ex1: Criando ordem de importancia para categorias em texto
+
+grades = df['Grades'].astype('category',
+                             categories=['D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+'],
+                             ordered=True)
+grades > 'C'  ----> entrega o Boulleans para a tabela toda
+
+Ex2: 
+s = pd.Series(['Low', 'Low', 'High', 'Medium', 'Low', 'High', 'Low'])
+
+# Your code here
+s = s.astype('category',categories=['Low', 'Medium','High'],ordered=True)
+s>'Low'
+
+
+*BINS* 
+
+Usando o função "CUT, podemos cortar colunas em catergorias de acordo com o valor 
+Ex:  Marcelo     (0,25] anos
+pd.cut(df['avg'],10)
+pd.cut(s, 3, labels=['Small', 'Medium', 'Large']) --> Colocando e já dando nomes as bins!!!
+
+
+*PIVOT TABLES* 
+Permitem tranformar colunas em comparadores fxando uma formula de comparação
+Ex: df.pivot_table(values='(kW)', index='YEAR', columns='Make', aggfunc=np.mean)
+Ex: 
+import numpy as np
+#print(Bikes)
+print(Bikes.pivot_table(values='Price', index='Bike Type', columns='Manufacturer', aggfunc=np.mean))
+print("\n")
+print(Bikes.pivot_table(values='Rating', index='Bike Type', columns='Manufacturer', aggfunc=np.mean))
+
+Não precisamos preencter tooodos os requitos e tambem podemos colocar mais de uma coluna nos requistos
+Ex: print(pd.pivot_table(Bikes, index=['Manufacturer','Bike Type']))
+
+Para mais de uma função, temos que usar o aggfunc[]
+Ex: df.pivot_table(values='(kW)', index='YEAR', columns='Make', aggfunc=[np.mean,np.min], margins=True)
+
+
+
+
+********       WEEK 4         ********
+
+Analisando probailidades binomiais (um coisa ou outra)
+Ex: Moeda que vai cair CARA -> Probabilidade : 0,5
+np.random.binomial(5, 0.5,10000) -> Vou fazer um teste de 5 vezes e ver quantas vezez deu certo. Dai vou refazer tudo 10000 vzes
+A funcção devolve uma lista com todos os resultaados que deram certo em cada uma dos testes de 5 vezes ex: 4 ,2 , 3, 1, 2 ....
+
+Estatistica:
+evento: distribution = np.random.normal(0.75,size=1000)
+
+* Desvio Padrão: np.std(distribution)
+* Kurtosis: import scipy.stats as stats
+	    stats.kurtosis(distribution)
+* Chi distribuiton: import scipy.stats as stats
+		    chi_squared_df2 = np.random.chisquare(Z, size=10000) Z-> degree de liberté
+		    stats.skew(chi_squared_df2)
+*T-Testing: from scipy import stats
+            stats.ttest_ind(early['assignment1_grade'], late['assignment1_grade'])
+

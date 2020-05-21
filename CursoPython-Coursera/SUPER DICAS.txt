@@ -1,0 +1,58 @@
+SUPER DICAS 
+*Mudar nome coluna
+gapminder.rename(columns={'pop':'population', 'lifeExp':'life_exp'},inplace=True)
+
+*Mudar um valor especifico na tabela
+town['State'][3] = estados[n-1]
+
+
+*DOP COLUNAS energy.drop(energy.columns[[0, 1]], axis=1, inplace=True)
+epc = new.loc[:, ["Country",'Energy Supply per Capita']].mean()
+media.index[5]  -> achar index de uma posição
+
+*DataFrame to list
+lista = Top15["HighRenew"].tolist()
+
+*Ciar colunas novas com formulas
+Top15["HighRenew"]= np.where(Top15["% Renewable"] >= media, 1, 0)
+
+*Cria colunas com analise de GROUPBY 
+resultado = analise.set_index("Continents").groupby(level=0)['PopEst'].agg({'size': len, 'sum': np.sum, 'mean': np.average, 'std': np.std})
+
+*Dividir em bins 
+nova['GroupBin']=pd.cut(nova["% Renewable"],5)
+nova.groupby([0,"GroupBin"])['Energy Supply'].agg({'size': len})['size']
+
+*Criar novas colunas com filtros em colunas existentes
+early = df[df['assignment1_submission'] <= '2015-12-31']
+
+*Colocar linha como hearder das colunas
+df.columns = df.iloc[1]
+
+*Rsetar index
+housing.reset_index(drop=True, inplace=True)
+
+*Colluns headrs para primera linha 
+town = pd.DataFrame(np.vstack([town.columns, town]))
+
+*Dividir Strings
+- em todos os espaços 
+x.split()
+- em todo caracter espeficio
+x.split('a') -> sempre que houver um 'a' ele vai dividir a string
+
+* Lista de numeros RANDOM
+Y = np.random.normal(loc=0.0, scale=1.0, size=10000)
+X = np.random.random(size=10000)
+
+* DataFrame Aletótia Random
+from random import shuffle
+origins = ['China', 'Brazil', 'India', 'USA', 'Canada', 'UK', 'Germany', 'Iraq', 'Chile', 'Mexico']
+
+shuffle(origins)
+
+df = pd.DataFrame({'height': np.random.rand(10),
+                   'weight': np.random.rand(10),
+                   'origin': origins})
+df
+
