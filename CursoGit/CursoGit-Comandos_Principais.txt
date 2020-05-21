@@ -21,10 +21,28 @@ ls
 git add NOME
 git add -A -> pega todos os novos
 
-* Finalizar alterações locais ( commit -m "COMENTÁRO")
+* Finalizar alterações locais ( git commit -m "COMENTÁRO" )
+git commit -m "Criação dos arquivos"
+git commit -am "Criação dos arquivos"  -> Add e Commit ao mesmo tempo
 
 * Lista de Todos os Commits ja dados em um git ( git log )
 
-* Revertendo modificações ()
+* Revertendo modificações (git reset --MODO IDCOMMIT)
+Modo:
+soft: volta no tempo, porem mantendo arquivos antes do Commit
+mixed: Quase o mesmo
+hard: realmente volta TUDO
+Idcommot: 
+Ex: c2faf11cc4476b3c61e0170f78f5aee9b8127636
 
 * Mostrar Branch atual ( git branch )
+
+* Criar Branch ( git branch NOME)
+git branch Novos_Cursos
+
+* Mudar de Branch ( git checkout NOME )
+git checkou Novos_Cursos
+
+* Diferenciação entre dois arquivos o tempo ( git diff ) 
+a letra q sai do (end)
+
