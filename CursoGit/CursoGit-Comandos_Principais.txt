@@ -1,0 +1,30 @@
+
+************* CURSO GIT ************
+
+* Limpar a tela ( clear)
+
+* Abrindo uma pasta ( cd )
+cd C:\Users\irsma
+cd Desktop
+
+* Mostrar todos os arquivos de uma pasta ( ls ou dir)
+cd Desktop
+ls
+
+* Sair de pastas ou voltar no diretorio  (cd ..)
+
+* Criar pastas ( mkdir NOME )
+
+* Mostrar tudo que sofreu alterações ( git status )
+
+* Adicionar novos arquivos ao Trakcing ( git add -A )
+git add NOME
+git add -A -> pega todos os novos
+
+* Finalizar alterações locais ( commit -m "COMENTÁRO")
+
+* Lista de Todos os Commits ja dados em um git ( git log )
+
+* Revertendo modificações ()
+
+* Mostrar Branch atual ( git branch )
