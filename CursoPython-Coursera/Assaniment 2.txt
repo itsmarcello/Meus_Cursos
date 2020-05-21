@@ -1,0 +1,160 @@
+
+def answer_one(x):
+    gold= x
+    goldmax = max(x)
+    i = 0
+    for pos in x:
+    #print("O pos usado é {} e i igual a {}".format(pos,i))
+        if(pos == goldmax):
+            #print(pos)
+            #print(i)
+            posimax = i; 
+        i+=1
+
+    paises = gold.index
+    #print(paises[posimax])
+
+    #print(paises[posimax])
+
+    return paises[posimax]
+
+answer_one(df['Gold.1'])
+
+
+Question 2
+
+
+
+def answer_two(x):
+    
+    codf=x.loc[:,['Gold', 'Gold.1']]
+    codf
+    Summer = codf.loc[:,'Gold']
+    Witter = codf.loc[:,'Gold.1']
+    diff = Summer - Witter
+    abs(diff)
+    max_diff = max(diff)
+    abs(diff)
+    #print(answer_one(abs(diff)))
+    return   answer_one(abs(diff))
+
+
+answer_two(df)
+
+Question 3
+
+x = df
+codf = x[x['Gold'] > 0]
+codf = x[x['Gold.1']> 0] 
+codf
+Summer = codf['Gold']
+Winter = codf['Gold.1']
+Winter
+coef = abs((Summer - Winter)/Summer)
+coef = coef[coef <= 1E308]
+coef_max = max(coef)
+answer_one(coef)
+
+Question 4
+
+def answer_four(y):
+
+    x=y.loc[:,['Gold.2', 'Silver.2','Bronze.2']]
+    indice = x.index
+    Gold = (x.loc[:,'Gold.2']*3)
+    Silver = (x.loc[:,'Silver.2']*2)
+    Bronze = (x.loc[:,'Silver.2']*1)
+    indice = df.index
+    lenght= len(Gold)
+    Points = [None] * lenght
+    for i in range(0,lenght):
+        Points[i] = Gold[i]+Silver[i]+Bronze[i]
+        
+    return pd.Series(Points, index = (indice))
+    
+    #return print(Points,len(Points))
+
+answer_four(df)
+
+
+Question 5
+
+def answer_five (x):
+
+    import numpy as np
+  
+    y = x.loc[:,['STNAME','COUNTY']]
+    y = y.set_index(['STNAME'])   
+    states = y.index
+    size= len(y)
+    i=0
+    analise_total = x.loc[:,['STNAME','COUNTY']]
+    analise_stados = x.loc[:,['STNAME']]
+    analise_stados= analise_stados['STNAME']
+    analise_county= x.loc[:,['COUNTY']]
+    analise_county= analise_county['COUNTY']
+    cont = [0]*size
+    maxi = 0
+    estados = ['0']*50
+    for i in range(0,size):
+        if i == 0:
+            comp = analise_stados.iloc[i]
+        else:
+            analise_stados.iloc[i]
+            if comp != analise_stados.iloc[i]:
+                comp = analise_stados.iloc[i]
+                #print(maxi)
+                cont[maxi] = i
+                estados[maxi] = analise_stados[i]
+                maxi+=1
+            
+            #print(analise_stados[i])
+#print('Terminou a primeira parte')
+#print(cont)
+    m=0
+    soma =0
+    total = [0]*len(cont)
+    k=0
+    i=0
+    while cont[k] != 0:
+    #print(k,cont[k],soma)
+        for i in range(i,cont[k]):
+        #print(analise_stados.iloc[i])
+            soma += analise_county[i]
+        #print(soma)
+        total[m] = soma
+        m+=1
+        i=cont[k]
+        k+=1
+        soma=0
+    
+
+    df_2=pd.Series(estados, index= (estados))
+
+    answer_one(df_2)
+
+    return answer_one(df_2)
+
+x = census_df
+answer_five(x)
+
+Question 6
+
+def proc_max(x):
+    maxi = []
+    s = x
+    while (len(maxi) < 4):     
+        maxi.append(s.idxmax())
+        s[s.idxmax()] =0                
+    return maxi
+
+
+
+for group, frame in df.groupby('STNAME'):
+    print("\n")
+    print(f" Estado em analise: {group} \n")
+    print("\n")
+    a = proc_max(frame["CENSUS2010POP"])
+    for i in range(1,4):
+        print(frame["CTYNAME"][a[i]])
+

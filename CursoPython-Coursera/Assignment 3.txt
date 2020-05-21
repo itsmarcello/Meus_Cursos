@@ -1,0 +1,186 @@
+QUESTION 1
+
+import pandas as pd
+import numpy as np
+#pd.set_option("display.max_rows", None, "display.max_columns", None)
+energy = pd.read_excel ('Energy Indicators.xls', header=None)
+energy.drop(energy.columns[[0, 1]], axis=1, inplace=True)
+energy = energy[18:245]
+energy.columns = ['Country', 'Energy Supply', 'Energy Supply per Capita', '% Renewable']
+energy.loc[energy['Energy Supply'] == '...'] = np.NaN
+energy['Energy Supply'] = energy.loc[energy['Energy Supply']!= np.NaN , ['Energy Supply']] /1E6
+numbers = ['1','2','3']
+
+def clean_char(string):
+    chars = set('0123456789$,(,)')
+    for c in chars:
+        if string.find(c) != -1:
+            string = string[0:string.find(c)]
+    return string
+for pos, pais in enumerate(energy["Country"].astype(str)):
+    energy.loc[18+pos,["Country"]] = clean_char(pais)
+    
+energy= energy.replace({'Country': 'United Kingdom of Great Britain and Northern Ireland'}, "United Kingdom")
+energy= energy.replace({'Country': "Republic of Korea"}, "South Korea")
+energy= energy.replace({'Country': "United States of America"}, "United States")
+
+    
+    
+energy.index=range(0,227)    
+
+encontrado = 0
+for pos, i in enumerate(energy["Country"]):
+    if i== "China":
+        #print(pos, i)
+        encontrado +=1
+        if encontrado > 1:
+            energy = energy.drop([int(pos)])
+            #print(f"Eliminado linha {int(pos)}")
+    if "Iran" in i:
+        #print(f"Achos Iran em {pos} nome:{i}")
+        #print ("Iran"==i)
+        energy= energy.replace({'Country': i}, "Iran")
+
+
+# ---------------- GDP -----------------------------
+    
+GDP = pd.read_csv('world_bank.csv')
+GDP = GDP[3:]
+GDP.columns = GDP.iloc[0]
+GDP.index=range(0,265)
+GDP = GDP.drop([0], axis=0)
+GDP.index=range(0,len(GDP))
+for w in range(0,2):
+    for pos, pais in enumerate(GDP["Country Name"].astype(str)):
+        if "Korea, Rep." in pais:
+            GDP= GDP.replace({'Country Name': pais}, "South Korea")
+            #print(GDP.loc[pos,["Country Name"]])
+        if "Iran, Islamic Rep." in pais:
+            GDP= GDP.replace({'Country Name': "Iran, Islamic Rep."}, "Iran")
+            #print(GDP.loc[pos,["Country Name"]])
+        if "Hong Kong SAR, China" in pais:
+            GDP= GDP.replace({'Country Name': pais}, "Hong Kong")
+            #print(GDP.loc[pos,["Country Name"]])
+GDP.drop(GDP.columns[[(range(1,50))]], axis = 1, inplace = True)
+GDP=GDP.rename(columns = {'Country Name':'Country'})
+
+# ---------------- ScimEn -----------------------------
+    
+ScimEn = pd.read_excel ('scimagojr-3.xlsx', header=None)
+#ScimEn .drop(ScimEn .columns[[0]], axis=1, inplace=True)
+ScimEn.columns = ScimEn.iloc[0]
+ScimEn=ScimEn[1:len(ScimEn)-1]
+#ScimEn.index=range(0,192)
+ScimEn = ScimEn[0:16]
+
+
+new= pd.merge(ScimEn, energy, how='inner', left_on="Country", right_on="Country")
+new= pd.merge(new, GDP, how='inner', left_on="Country", right_on="Country")
+
+
+
+#ScimEn
+#new.index=range(1,len(new)+1)
+new = new.set_index(["Rank"])
+new
+
+QUESTION 3 
+
+import numpy as np
+lista = new["Country"]
+w = new.T
+w.columns = lista
+w = w[11:21]
+soma = w.iloc[2]-w.iloc[2]
+for i in range (0, len(w)):
+    soma += w.iloc[1]
+    #print(soma)
+media = (soma/len(w)).sort_values(ascending=False)
+media
+
+
+QUESTION 4
+
+lista = new["Country"]
+w = new.T
+w.columns = lista
+w = w[11:21]
+soma = w.iloc[2]-w.iloc[2]
+for i in range (0, len(w)):
+     soma += w.iloc[1]
+media = (soma/len(w)).sort_values(ascending=False)
+
+media.index[5]
+
+UK = w[media.index[5]]
+result = UK["2015"]-UK["2006"]
+result
+
+QUESTION 5
+epc = new.loc[:, ["Country",'Energy Supply per Capita']].mean()
+epc
+
+QUESTON 6
+country =  new.set_index(['Country'])
+Renewable = (country["% Renewable"].idxmax(), max(country["% Renewable"]))
+Renewable
+
+QUESTION 7
+a = new.copy().set_index(['Country'])
+analise = new["Citations"]/new["Self-citations"]
+result = (analise.idxmax(),a.index[analise.idxmax()] )
+result
+
+
+QUESTION 8
+
+a = new.copy()
+a["Population"]= a["Energy Supply"]/a["Energy Supply per Capita"]
+thirdseries = a.sort_values(by=["Population"], axis=0, ascending=False).reset_index().iloc[3]
+thirdseries["Country"]
+
+QUESTION 9
+
+Top15=new.copy()
+Top15['PopEst'] = Top15['Energy Supply'] / Top15['Energy Supply per Capita']
+Top15['Citable docs per Capita'] = Top15['Citable documents'] / Top15['PopEst']
+correlation = Top15.corr()
+correlation
+correlation.loc['Energy Supply per Capita', 'Citable docs per Capita']
+
+QUESTION 10
+
+import numpy as np
+media = np.mean(new["% Renewable"])
+Top15=new.copy()
+Top15["HighRenew"]= np.where(Top15["% Renewable"] >= media, 1, 0)
+HighRenew = pd.Series(Top15["HighRenew"].tolist(), index = Top15["Country"])
+
+
+QUESTION 11
+ContinentDict  = {'China':'Asia', 
+                  'United States':'North America', 
+                  'Japan':'Asia', 
+                  'United Kingdom':'Europe', 
+                  'Russian Federation':'Europe', 
+                  'Canada':'North America', 
+                  'Germany':'Europe', 
+                  'India':'Asia',
+                  'France':'Europe', 
+                  'South Korea':'Asia', 
+                  'Italy':'Europe', 
+                  'Spain':'Europe', 
+                  'Iran':'Asia',
+                  'Australia':'Australia', 
+                  'Brazil':'South America'}
+df = pd.Series(ContinentDict) 
+df = df.to_frame()
+nova = Top15.set_index(["Country"])
+nova = pd.merge(nova, df, how='inner', left_index=True, right_index=True)
+nova= nova.reset_index()
+
+analise=nova.loc[:, ["index",0,'PopEst']]
+analise= analise.rename(columns={0: "Continents",'index':"Country"})
+resultado = analise.set_index("Continents").groupby(level=0)['PopEst'].agg({'size': len, 'sum': np.sum, 'mean': np.average, 'std': np.std})
+resultado
+
