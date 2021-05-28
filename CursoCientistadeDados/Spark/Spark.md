@@ -28,4 +28,17 @@ As operações só são execultadas quando forem realmente necessarias.
 * filter 
 * set - união, interseção 
 
+## Ações
+
+Assim com as df to Pandas, o Spark apresenta suas RDDs. Essas RDDs podem forer transformações e ações. Transformações refazem essa RDD em várias versões dela (lineage), porém ficam aguardando uma ação para serem finalmente executadas. Quando uma ação é executada, as tranformações são feitas e um resultado é gerado. 
+Já as ações  
+
+-> Lazy Evaluation
+As operações só são execultadas quando forem realmente necessarias.
+
+* Map 
+* flatMap
+* filter 
+* set - união, interseção 
+
 
