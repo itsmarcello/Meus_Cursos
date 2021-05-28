@@ -41,7 +41,7 @@ As operações só são execultadas quando forem realmente necessarias.
 * filter 
 * set - união, interseção 
 
-## SPQKR SQL 
+## SPARK SQL 
 
 Bom para dados estruturados vindos de outras fontes de dados. 
 
