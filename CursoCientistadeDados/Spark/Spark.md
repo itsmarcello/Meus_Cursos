@@ -41,4 +41,11 @@ As operações só são execultadas quando forem realmente necessarias.
 * filter 
 * set - união, interseção 
 
+## SPQKR SQL 
+
+Bom para dados estruturados vindos de outras fontes de dados. 
+
+Spark Context (pyspark)- > SQL Context (para trabalhar com SQL)
+Spakr Session para trabalhr com DataFrames
+
 
