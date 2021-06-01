@@ -48,4 +48,20 @@ Bom para dados estruturados vindos de outras fontes de dados.
 Spark Context (pyspark)- > SQL Context (para trabalhar com SQL)
 Spakr Session para trabalhr com DataFrames
 
+## SPARK  Streaming 
+
+Bom estudo de streaming de dados. Nao é 100% time, pois trabalha com processamento em pequenos batches, porem ainda é bem rapido. 
+Usamos essa ferramenta para:
+
+![image](https://user-images.githubusercontent.com/62761388/120375942-b258c100-c2f1-11eb-818a-e7556c9f218e.png)
+
+![image](https://user-images.githubusercontent.com/62761388/120376018-c3a1cd80-c2f1-11eb-8ded-5a16aeb8c53f.png)
+
+
+* Batches : ML, criacao de Warehouses, etc
+* Streaming : Alimentacao Dashboards online, Internet das coisas, avalicao de fluxos em WebSites, etc.
+
+"Big Data never stops!"
+
+
 
