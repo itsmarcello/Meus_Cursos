@@ -12,3 +12,6 @@
   * Deletando arquivos do git: *git rm*
   * Verificando todos os Commits: *git log*  "q" para sair da tela
   * Renomenando/ Movendo arquivos: *git mv arquivo.py destino/arquivo.py*
+
+  * Desfazendo alteracoes
+  
