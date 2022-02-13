@@ -13,5 +13,8 @@
   * Verificando todos os Commits: *git log*  "q" para sair da tela
   * Renomenando/ Movendo arquivos: *git mv arquivo.py destino/arquivo.py*
 
-  * Desfazendo alteracoes
+  * Resetar um arquivo conforme ele esta na master *git checkout nomearquivo.py*
+
+  * Resetar uma branch para ficar conforme a master
+  *git reset --hard origin/master*
   
