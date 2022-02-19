@@ -39,3 +39,93 @@ Slaves or Data Node:
 
 HDFS divide os arquivos em pedacos menores de 128mb por padrao e tem uma replicacao padrao de 3. Iso significa que cada pedaco de arquido pode ser enonctrado 3 vewes parmi os nodes. 
 
+
+## Spark Sessions
+Antes da versão 2.0 existia uma divisão entre:
+
+- SparkContext
+- SQLContext
+- HiveContext
+
+Ao iniciar uma nsessão no antigo, um objeto chamado *sc* nos era dado, que corrsponde ao SparkContext
+
+Apos o 2.0, tudo passa para uma unica definição *SparkSession*. Todos os contextos em um só lugar. 
+A variável<span style="color:red"> spark </span> que nos é dada ao inicar, é um *Objeto* da classe *SparkSession* e contém várias funcionalidades. 
+
+Para acessar os contextos na nova definião, basta:
+- spark.sparkContext
+
+ Caso a variavel spark não seja criada automaticamente, precisamos executar:
+
+from pyspark.sql import SparkSession
+ spark =    SparkSession\
+            .builder \
+            .master('yarn')\
+            .appName("Nome da Aplicação")\
+            .getOrCreate()
+
+matser pode ser: *yarn, mesos, Kubernetes or local[k] (onde k é o número de cores que queremos usar)*
+
+No final fa aplicação, coloque: <span style="color:red"> spark.stop()  </span> 
+
+## Spark Submit
+O Spark Submit nos permite deploy jobs para serem rodados no Spark. Com as novas versões do Spark, ele apresenta uma série de parametros que podem ser configurados:
+
+```
+./bin/spark-submit \
+  --class <main-class> \
+  --master <master-url> \
+  --deploy-mode <deploy-mode> \
+  --conf <key>=<value> \
+  ... # other options
+  <application-jar> \
+  [application-arguments]
+```
+
+Some of the commonly used options are:
+
+* --class: The entry point for your application (e.g. org.apache.spark.examples.SparkPi)
+* --master: The master URL for the cluster (e.g. spark://23.195.26.187:7077)
+* --deploy-mode: Whether to deploy your driver on the worker nodes (cluster) or locally as an external client (client) (default: client) 
+* --conf: Arbitrary Spark configuration property in key=value format. For values that contain spaces wrap “key=value” in quotes (as shown). Multiple configurations should be passed as separate arguments. (e.g. --conf <key>=<value> --conf <key2>=<value2>)
+application-jar: Path to a bundled jar including your application and all dependencies. The URL must be globally visible inside of your cluster, for instance, an hdfs:// path or a file:// path that is present on all nodes.
+* application-arguments: Arguments passed to the main method of your main class, if any
+* -- py-files: Podemos incluir vários arquivos .py e .zip se suporte ao nosso script principal
+
+Escreva: *spark-submit script.py*
+
+## RDD
+Existem dois tipos de dados no Spark: RDD e Data Frames. 
+
+When to use?
+- Dados não estruturados 
+- Performance e Optimization não são importantes
+
+Problems with RDD?
+- Opaque Computation: Cada Taks trabalha na sua partition indiviudalmente, entao o TODO não é analisado junto e não pode ser otimizado. 
+- Linguagem de Codigo muito trabalhosa e antiguada
+
+### RDD - Resilient Distrivuited Datasets
+Resilient: Resistente ou facilmente recuperavel em caso de problemas
+* As RDDs não podem ser modificadas
+* Além de track data lineage para analisar dados perdidos e recupera-los automaticamente
+
+Distribuited: São dividios em menos pedaços (Partitions) e distribuidas ao longo dos clusters (multiple nodes). 
+
+Dataset: Contem Dados.
+
+### Transformations and Actions
+Podemos fazer dois operações com as RDDs: Transformações e Actions. 
+
+Sempre que uma transformação é feita, uma nova RDD é criada e elas são ligadas entre si pela Lineage. E essa linhagem vai ajudar a recuperar dados perdidos em caso de falhas no processo, podem se recuperar. 
+
+Transformações são Lazy Operations. Já Actions dispara a ação para criar o resultado. 
+
+    Cada Partition da RDD vai ter processada por um TASK diferente dentro do Woker Node (Core) figure-1
+
+#### Lazy Valuation
+Sempre que fazermos uma *Transformation*, essa operação não é executada de imediato. O trigger só ocorre quando temos umas *Action*.
+
+#### In-memory Computation
+O Spark guarda os dados em memória RAM, se não couber, ele irá tentar colcoar no disco, porém com prejuizos à perfomance. Todas as operações, à la base, são feitas em memoria (mais rápido)
+
