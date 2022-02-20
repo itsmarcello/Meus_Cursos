@@ -42,4 +42,12 @@ Salvar as modificações atuais para testar uma outra abordagem, sem perder o co
 
 As Tags servem como checkpoints para as branches, marcando estagios do desenvolviemnto
 
-* criand a Tag: git tag -a nome_da_tag -m "mensagem"  
+* Criand a Tag: git tag -a nome_da_tag -m "mensagem"  
+* Listar tags: git tag
+* Ver detalhes da tag: git show nome_da_tag (q para sair)
+* Enviando um tag para o servidor: git push origin nome_da-tag
+* Enviar todas as tags: git origin --tags. O Repositorio receberá uma Tag e não uma branch, como estávamos fazendo. Assim, outra pessoa pode continnuar o desenvolvimento a partir da sua Tag já criada.
+
+
+
+
