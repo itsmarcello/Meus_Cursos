@@ -28,5 +28,5 @@
   * Criar uma branch: *git branch nome_da_branch*
   * Deletando Branch: *git branch -d ou --delete nome_da_branch*
   * Mudar de brach *git checkout -b 'nome_do_arquivo'* É justamente o '-b' que permite mudar e criar a branch ao mesmo tempo
-  * Unindo Branch
+  * Unindo Branch (MERGE): Estando na branch que voce quer como principal (geralmente a master), execute o codigo com o nome da branch da qual voce quer trazer os dados  *git merge 'nome_da_branch*
   
