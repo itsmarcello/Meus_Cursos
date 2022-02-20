@@ -28,5 +28,15 @@
   * Criar uma branch: *git branch nome_da_branch*
   * Deletando Branch: *git branch -d ou --delete nome_da_branch*
   * Mudar de brach *git checkout -b 'nome_do_arquivo'* É justamente o '-b' que permite mudar e criar a branch ao mesmo tempo
-  * Unindo Branch (MERGE): Estando na branch que voce quer como principal (geralmente a master), execute o codigo com o nome da branch da qual voce quer trazer os dados  *git merge 'nome_da_branch*
+  * Unindo Branch (MERGE): Estando na branch que voce quer como principal (geralmente a master), execute o codigo com o nome da branch da qual voce quer trazer os dados  *git merge 'nome_da_branch*. 
+
+  ## Stash
+Salvar as modificações atuais para testar uma outra abordagem, sem perder o codigo atual. 
+
+* Volta o Branch para a master: *git stash*
+* Para recupar um Ssh ja feito: *git stash apply ID* PS: Antes de trocar para outro stash, é necessario salvar as mudanças atuais em um stash novo. 
+* Ver mudanças: git stash show -p ID
+* 
+
+
   
