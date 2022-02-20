@@ -36,7 +36,10 @@ Salvar as modificações atuais para testar uma outra abordagem, sem perder o co
 * Volta o Branch para a master: *git stash*
 * Para recupar um Ssh ja feito: *git stash apply ID* PS: Antes de trocar para outro stash, é necessario salvar as mudanças atuais em um stash novo. 
 * Ver mudanças: git stash show -p ID
-* 
+* Deletando Stash: git stash drop ID. Ou git stash clear, para apagar todas
 
+## Tag
 
-  
+As Tags servem como checkpoints para as branches, marcando estagios do desenvolviemnto
+
+* criand a Tag: git tag -a nome_da_tag -m "mensagem"  
