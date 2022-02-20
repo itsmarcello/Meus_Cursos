@@ -17,4 +17,12 @@
 
   * Resetar uma branch para ficar conforme a master
   *git reset --hard origin/master*
+
+  ## Branches
+
+  É sempre bom criamos uma branch para nova featura da aplicação que estamos criando. 
+
+  * Criar uma branch: *git branch nome_da_branch*
+  * Deletando Branch: *git branch -d ou --delete nome_da_branch*
+  * Mudar de brach *git checkout -b 'nome_do_arquivo'* É justamente o '-b' que permite mudar e criar a branch ao mesmo tempo
   
