@@ -129,3 +129,87 @@ Sempre que fazermos uma *Transformation*, essa operação não é executada de i
 #### In-memory Computation
 O Spark guarda os dados em memória RAM, se não couber, ele irá tentar colcoar no disco, porém com prejuizos à perfomance. Todas as operações, à la base, são feitas em memoria (mais rápido)
 
+## Dataframe Fundamentals
+
+ - Dataframe é um dataset organizado em linhas e colunas. 
+ - Assim como os RDDs, as dataframes também são distribuidas pelos nós do cluster (partitions) figure-2
+ - Número de partições *df.rdd.getNumPartitions()*
+ - Saber como está a divisão dos dados: *df.rdd.glom().collect()*
+ - Lazy Valuation: Os mesmos conceitos de Transformation and Action tambem são aplicados para as Dataframes. Esperando até o trigger de ação ser enviado para escolher o melhor caminho para realizar a tarefa.
+ - Os dados na origem não são modificados durante a utlização do Spark. Uma copia dos dados é feita na memória e é com essa copia que o Spark trabalhará. 
+
+ ### Organization
+ - Schema: Nome e tipo das colunas que compem a DF. *df.printSchema()*
+ - Stored: A forma como os dados estão divididos nas partições (na memoria, no disco ou both) *df.rdd.getStorageLeve()* (useDisk, useMemory,useOffHeap,deserialized,replication)
+ - API: Funções para manipular os dados: Select, withColumn,GroupBy
+
+## SparkSession
+O SparkSession contem todos os demais context dentro dele (SQL, HIVE E Spark). Assim que iniciamos o Spark, um objeto chamado *spark* da classe *SparkSession* é criado. 
+
+Criando o objeto Spark:
+```
+from pyspark.sql import SparkSession
+ spark =    SparkSession\
+            .builder \
+            .master('yarn')\
+            .appName("Nome da Aplicação")\
+            .getOrCreate()
+```
+
+### Principais comandos do objeto 'spark'
+
+help(spark)
+
+- df.show(5, truncate=False): Vai forçar o Spark a mostarr tudo que esrá escrito nas colunas
+
+- spark.range(inicio, fim, passo) : Cria uma DF num range de números
+
+- spark.createDataFrame(data = ??, schema) : Cria uma DF a partir de uma estrutura de texto. Se não passarmos o schema ele tenta achar sozinho. ex: *schema = ['Name',  'Age']* or schema=*('Name' string,'Age' Int )* Essa função aceita diversas entradas com tuples, dics, pandas, rdds
+
+- spark.createOrReplaceTempView("Nome da Tabela): Permite cirar um view temporária onde poderemos executar comandos de sql 
+
+- spark.sql (""" ESCREVER A QUERY """) : Podemos passar a query para a view temporárias que foi criada.
+
+- spark.table('Tabel name') : Transforma a TempView numa dataframe
+
+- spark.read.load( path, format='csv' or 'parquet', <span style="color:red"> inferSchema=True </span>,<span style="color:blue"> header = True </span>   )
+
+```
+PS: Se para o projeto, sempre todas as colunas são necessárias, então CSV, JSON ou Avro (Row-Based files) são mas indicados. 
+However, se apenas algumas colunas espeficicas são necessarias nas analises, Parquet e ORC (Column-Based files) ganham em perfornance. 
+```
+
+## Dataframe Fucntions
+
+### Row
+from pyspark.sql import Row
+row = Row(name='Roberto', Age=35)
+row.name
+row.Age
+'name' in row
+'Robert' in row.name
+
+### Column
+Acesso:
+- df.nome_da_coluna 
+
+    ou df.select(df.nome_da_coluna) 
+
+    ou df.seldct(df["nome_da_coluna"])
+
+ - col 
+
+    from pyspark.ql.functions import col  
+
+    df.select(col("nome da coluna")).show()
+
+Renomear colunas:
+
+- df.nome_da_coluna.alias("novo_nome")
+
+Coluna Ordenada:
+ 
+- df.orderBy(df.nome_da_coluna.asc())
+
+    df.orderBy(col("nome_da_coluna").asc()).select(col("nome_da_coluna")).distict().show()
+
