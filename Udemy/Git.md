@@ -20,9 +20,13 @@
 
   ## Branches
 
+  ```
+  Antes de criar uma nova branch, volte para a master e dê um GIT PULL, para garantir que todos os dados estão atualizados ao criarmos na nova Branch 
+  ```
   É sempre bom criamos uma branch para nova featura da aplicação que estamos criando. 
 
   * Criar uma branch: *git branch nome_da_branch*
   * Deletando Branch: *git branch -d ou --delete nome_da_branch*
   * Mudar de brach *git checkout -b 'nome_do_arquivo'* É justamente o '-b' que permite mudar e criar a branch ao mesmo tempo
+  * Unindo Branch
   
