@@ -213,3 +213,94 @@ Coluna Ordenada:
 
     df.orderBy(col("nome_da_coluna").asc()).select(col("nome_da_coluna")).distict().show()
 
+Cast:
+* df.dtypes
+* .cast()   
+    df.order_id.cast("string")
+* .asType()
+
+Between:
+É usando dentro do WHERE paa filtrar valores que estão dentro do intervalo pedido
+
+* df.where(df.order_id.between(10,20))
+
+Contains, startswith, endwith(), like(), rlike()
+São usamos também dentro do WHERE como filtros principalmente para texto
+* ord.where(ord.order_status.contains('CLOSED'))
+* ord.where(ord.order_status.like('%CLO%'))
+* ord.where(ord.order_status.startswith('C'))
+
+Contitdo numa lista isin()
+* ord.where(ord.order_status.isin('CLOSED', 'PENDING'))
+
+eqNullSafe()
+Em comparações de == ou != True/False, caso tenhamos valores null no meio da df, as comparações não funcionarão. Assim, precisamos tratar os dados antes:
+
+* df.select(df.col1.eqNullSafe('food'))
+(Procura onde na col1, temos o 'food')
+
+.isNull() or isNotNull()
+Devolver TRUE para valoes NUll, bom para ser usando dentro de filtros ou where 
+
+Substrings
+Devolbe a string com o número de caractres que voce pedir
+*  (.+ord.order_dare.substr(1,4) == '2013')
+
+Acesso a sub estrututras (json)
+Basta colcoar nos nomes das colunas:
+* df.col1.colsub1.colsubsub1s.show()
+* df.select(df.col1.colsub1.getField('colsubsub1')).show()
+
+WHEN(), OTHERWISE()
+* ord.select(ord.order_staus, 
+    when (ord.order_staus == 'CLOSED', 'CO')
+    .when()
+    .when()
+    .when()
+    .otherwise())
+
+
+
+# Dataframe Tranformations 
+
+### Window
+É um jeito de agregar as colunas, mas difernte de uma soma, recebemos uma linha resultado para cada grupo de entrada. 
+``` 
+from pysaprk.sql.window import *
+from pyspark.sql.functions import * 
+spec = Window.partitionBy(df.dept) 
+```
+
+Existem 3 tipo sde Window Functions?
+- Ranking 
+- Analytical
+- Aggregate
+
+#### Ranking
+Servem para criar um Rank para o resultato da particao 
+Rankear os Salarios dos departamentos 
+```
+spec = Window.\
+    partitionBy("departamento")\
+    .orderBy(df.salario.desc())
+```
+
+* row_number() - Não checar por valores repetidos. 1 2 3 4 5 6
+df.withColumn("row number", row_number().over(spec))
+
+* rank() - Se preocupa com valores REPETIDOS, mas deixa Gaps de linhas 1 2 2 4 5 6
+df.withCOlumn("Rank dos Salarios", rank().over(spec))
+
+* dense_rank() - Semelhante ao Rank, mas não deixar Gap 1 2 2 3 3 4 
+df.withColumn("Dense Rank, dense_rank().over(spec))
+
+* percent_rank() - Porcentagem dos valores no Rank da couluna 0 - 100%
+df.withColumn("Porcentagem do Rank", percent_rank(.over(spec)))
+
+* ntile() - Classifica a sua coluna de acordo com o quartil (n=4), que foi definido
+df.withColumn("ntile_rank", ntile(6).over(spec))
+
+* cume_dist() - Vai somando a porcentagem do números de valores na orden até termos 100% , mesmos valores ficam com a mesma porcentagem 
+df.withColumn("cum_rank"", cume_dist().over(spec))
+
+
